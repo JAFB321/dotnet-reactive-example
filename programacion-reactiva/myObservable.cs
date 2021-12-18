@@ -12,24 +12,24 @@ namespace programacion_reactiva
     // hdeleon implementation https://www.youtube.com/watch?v=Kq0PNa-BWKU&ab_channel=hdeleon.net
     internal class myObservable
     {
-        public event EventHandler eventHandler;
-        public IObservable<object> observable;
+        public event EventHandler<String> eventHandler;
+        public IObservable<EventPattern<String>> observable;
         
         public myObservable()
         { 
-            observable = Observable.FromEventPattern(
+            observable = Observable.FromEventPattern<String>(
                     e => eventHandler += e,
                     e => eventHandler -= e
                 );
 
         }
         
-        public void doSomething()
+        public void doSomething(String some)
         {
-            eventHandler(null, EventArgs.Empty);
+            eventHandler(null, some);
         }
 
-        public void subscribe(Action<object> action)
+        public void subscribe(Action<EventPattern<String>> action)
         {
             observable.Subscribe(action);
         }
